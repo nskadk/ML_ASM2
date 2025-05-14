@@ -1,0 +1,35 @@
+{
+  "classes": [],
+  "class_counts": {},
+  "preprocessing_pipeline": [
+    "resize",
+    "segmentation",
+    "contrast_enhancement",
+    "sharpen",
+    "color_transformation",
+    "normalize"
+  ],
+  "pipeline_description": [
+    "Resize images to consistent dimensions",
+    "Remove background to isolate plant tissue",
+    "Enhance contrast to highlight disease features",
+    "Apply sharpening to enhance disease boundaries",
+    "Transform to disease-relevant color spaces (HSV, LAB)",
+    "Normalize pixel values for model training"
+  ],
+  "total_images": {
+    "original": 0,
+    "preprocessed": 0
+  },
+  "config": {
+    "dataset_path": "dataset",
+    "output_dir": "output",
+    "target_size": [
+      224,
+      224
+    ],
+    "num_workers": 1,
+    "analysis_sample_size": 3000
+  },
+  "error": "No images were successfully processed"
+}

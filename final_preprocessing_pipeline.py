@@ -1242,23 +1242,23 @@ def create_preprocessing_config(dataset_path='./train_images', output_dir='./pre
 
 # Create and run the full preprocessing pipeline
 # Create preprocessing configuration
-preprocess_config = create_preprocessing_config(
-    dataset_path=dataset_path,
-    output_dir=preprocessed_dir
-)
+# preprocess_config = create_preprocessing_config(
+#     dataset_path=dataset_path,
+#     output_dir=preprocessed_dir
+# )
 
-preprocessing_pipeline = PreprocessingPipeline(preprocess_config)
-pipeline_info_path = preprocessing_pipeline.run()
+# preprocessing_pipeline = PreprocessingPipeline(preprocess_config)
+# pipeline_info_path = preprocessing_pipeline.run()
 
 # Later, preprocess a single image using the established pipeline
-input_image_path = "./some_plant_image.jpg"
-processed_image = preprocessing_pipeline.preprocess_single_image(input_image_path)
+# input_image_path = "./some_plant_image.jpg"
+# processed_image = preprocessing_pipeline.preprocess_single_image(input_image_path)
 
-# Display or save the processed image
-if processed_image is not None:
-    plt.imshow(processed_image)
-    plt.axis('off')
-    plt.show()
+# # Display or save the processed image
+# if processed_image is not None:
+#     plt.imshow(processed_image)
+#     plt.axis('off')
+#     plt.show()
 
-    # Save if needed
-    cv2.imwrite("preprocessed_single_image.jpg", cv2.cvtColor(processed_image, cv2.COLOR_RGB2BGR))
+#     # Save if needed
+#     cv2.imwrite("preprocessed_single_image.jpg", cv2.cvtColor(processed_image, cv2.COLOR_RGB2BGR))
