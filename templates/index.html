@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Leaf Disease Prediction</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    color: #1e2a38;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
+  h1 {
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 2.8rem;
+    letter-spacing: 1px;
+  }
+  .subtitle {
+    font-weight: 400;
+    font-size: 1.2rem;
+    color: #4a4a4a;
+    margin-bottom: 40px;
+    text-align: center;
+    max-width: 600px;
+  }
+  .container {
+    display: flex;
+    gap: 40px;
+    max-width: 1100px;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .box {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.10);
+    padding: 30px 40px;
+    flex: 1 1 370px;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  /* Upload box */
+  .upload-box label {
+    width: 100%;
+    height: 220px;
+    border: 3px dashed #7ac1b8;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: #7ac1b8;
+    font-weight: 600;
+    font-size: 1.25rem;
+    transition: border-color 0.3s, color 0.3s;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+  .upload-box label:hover {
+    border-color: #4a9a8a;
+    color: #4a9a8a;
+  }
+  .upload-box input[type="file"] {
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+  #preview {
+    max-width: 100%;
+    max-height: 220px;
+    border-radius: 20px;
+    object-fit: contain;
+    display: none;
+  }
+  button {
+    margin-top: 20px;
+    background: linear-gradient(135deg, #4a9a8a, #2f6f6a);
+    border: none;
+    color: white;
+    font-weight: 600;
+    font-size: 1.2rem;
+    padding: 15px 0;
+    width: 100%;
+    border-radius: 15px;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(46, 125, 115, 0.3);
+    transition: background 0.3s, box-shadow 0.3s;
+  }
+  button:hover {
+    background: linear-gradient(135deg, #2f6f6a, #1c4f4a);
+    box-shadow: 0 12px 20px rgba(28, 79, 74, 0.5);
+  }
+  /* Result box */
+  .result-box {
+    width: 100%;
+    max-width: 500px;
+    align-items: stretch;
+  }
+  .result-box h2 {
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: #2f6f6a;
+    text-align: center;
+  }
+  .most-likely-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .most-likely-badge {
+    background: #e0f2f1;
+    color: #1976d2;
+    border-radius: 16px;
+    padding: 10px 20px;
+    font-weight: 700;
+    font-size: 1.05rem;
+    box-shadow: 0 2px 8px rgba(76,175,80,0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 120px;
+  }
+  .most-likely-label {
+    font-size: 0.95rem;
+    color: #2f6f6a;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .most-likely-value {
+    font-size: 1.18rem;
+    color: #1b5e20;
+    font-weight: 700;
+  }
+  .predictions-container {
+    width: 100%;
+    margin-bottom: 22px;
+  }
+  .predictions-container h3 {
+    margin: 0 0 8px 0;
+    color: #2f6f6a;
+    font-size: 1.08rem;
+    font-weight: 600;
+  }
+  .prediction-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 13px;
+    background: rgba(255,255,255,0.93);
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  }
+  .prediction-header {
+    flex: 1;
+    margin-right: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .prediction-header span:first-child {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 1.07rem;
+  }
+  .prediction-percentage {
+    font-weight: 700;
+    color: #2f6f6a;
+    min-width: 70px;
+    text-align: right;
+    font-size: 1.07rem;
+  }
+  .progress-bar {
+    height: 8px;
+    background: #e0f2f1;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 7px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: #4a9a8a;
+    transition: width 1s ease;
+  }
+  @media (max-width: 1100px) {
+    .container { flex-direction: column; align-items: center; }
+    .box { max-width: 95vw; }
+    .result-box { max-width: 95vw; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Leaf Disease Prediction</h1>
+<p class="subtitle">Upload a leaf image to analyze its health condition and get detailed predictions with confidence scores.</p>
+
+<div class="container">
+  <div class="box upload-box">
+    <label for="imageInput" id="uploadLabel">
+      <span id="uploadText">Click or drag to upload an image</span>
+      <input type="file" id="imageInput" accept="image/*" />
+      <img id="preview" alt="Image preview" />
+    </label>
+    <button id="predictBtn">Predict</button>
+  </div>
+
+  <div class="box result-box" id="resultBox" style="display:none;">
+    <h2>Prediction Results</h2>
+    
+    <!-- Most Likely Row -->
+    <div class="most-likely-row">
+      <div class="most-likely-badge">
+        <div class="most-likely-label">Condition</div>
+        <div class="most-likely-value" id="bestCondition">-</div>
+      </div>
+      <div class="most-likely-badge">
+        <div class="most-likely-label">Variety</div>
+        <div class="most-likely-value" id="bestVariety">-</div>
+      </div>
+      <div class="most-likely-badge">
+        <div class="most-likely-label">Age</div>
+        <div class="most-likely-value" id="bestAge">-</div>
+      </div>
+    </div>
+
+    <!-- Condition Predictions -->
+    <div class="predictions-container" id="conditionPredictions"></div>
+    <!-- Variety Predictions -->
+    <div class="predictions-container" id="varietyPredictions"></div>
+    <!-- Age Predictions -->
+    <div class="predictions-container" id="agePredictions"></div>
+  </div>
+</div>
+
+<script>
+  const imageInput = document.getElementById('imageInput');
+  const preview = document.getElementById('preview');
+  const uploadText = document.getElementById('uploadText');
+  const predictBtn = document.getElementById('predictBtn');
+  const resultBox = document.getElementById('resultBox');
+
+  // Most likely elements
+  const bestCondition = document.getElementById('bestCondition');
+  const bestVariety = document.getElementById('bestVariety');
+  const bestAge = document.getElementById('bestAge');
+
+  async function handlePrediction() {
+    if (!imageInput.files.length) {
+      alert('Please upload an image first!');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('image', imageInput.files[0]);
+
+    try {
+      const response = await fetch('/', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+      
+      if (response.status !== 200) {
+        throw new Error(data.error || 'Prediction failed');
+      }
+
+      // Update image preview
+      preview.src = data.image_url;
+      preview.style.display = 'block';
+      uploadText.style.display = 'none';
+      
+      // Update most likely badges
+      bestCondition.textContent = `${data.condition_preds[0][0]} (${(data.condition_preds[0][1] * 100).toFixed(1)}%)`;
+      bestVariety.textContent = `${data.variety_preds[0][0]} (${(data.variety_preds[0][1] * 100).toFixed(1)}%)`;
+      bestAge.textContent = `${data.age[0][0]} days (${(data.age[0][1] * 100).toFixed(1)}%)`;
+
+      // Update detailed predictions
+      updatePredictions('condition', data.condition_preds);
+      updatePredictions('variety', data.variety_preds);
+      updatePredictions('age', data.age);
+
+      resultBox.style.display = 'block';
+
+    } catch (error) {
+      alert(`Error: ${error.message}`);
+    }
+  }
+
+  function updatePredictions(type, predictions) {
+    const container = document.getElementById(`${type}Predictions`);
+    let title = '';
+    if (type === 'condition') title = 'Top 3 Condition Predictions';
+    else if (type === 'variety') title = 'Top 3 Variety Predictions';
+    else if (type === 'age') title = 'Top 3 Age Predictions';
+    container.innerHTML = `<h3>${title}</h3>`;
+
+    predictions.forEach(([label, confidence], index) => {
+      const percent = (confidence * 100).toFixed(1);
+      const displayLabel = type === 'age' ? `${label} days` : label;
+      const predictionHTML = `
+        <div class="prediction-item">
+          <div class="prediction-header">
+            <span>${displayLabel}</span>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: ${percent}%"></div>
+            </div>
+          </div>
+          <div class="prediction-percentage">${percent}%</div>
+        </div>
+      `;
+      container.insertAdjacentHTML('beforeend', predictionHTML);
+    });
+  }
+
+  imageInput.addEventListener('change', () => {
+    if (imageInput.files.length) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+        uploadText.style.display = 'none';
+        resultBox.style.display = 'none';
+      };
+      reader.readAsDataURL(imageInput.files[0]);
+    }
+  });
+
+  predictBtn.addEventListener('click', handlePrediction);
+</script>
+
+</body>
+</html>
