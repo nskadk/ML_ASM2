@@ -12,7 +12,7 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 preprocessing_config = create_preprocessing_config(
-    dataset_path='dataset',
+    dataset_path='dataset/train_images',
     output_dir='output'
 )
 pipeline = PreprocessingPipeline(preprocessing_config)

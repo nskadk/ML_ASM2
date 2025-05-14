@@ -1,28 +1,46 @@
 {
-  "classes": [],
-  "class_counts": {},
+  "classes": [
+    "dead_heart",
+    "bacterial_panicle_blight",
+    "bacterial_leaf_blight",
+    "brown_spot",
+    "hispa",
+    "downy_mildew",
+    "blast",
+    "normal",
+    "bacterial_leaf_streak",
+    "tungro"
+  ],
+  "class_counts": {
+    "dead_heart": 0,
+    "bacterial_panicle_blight": 0,
+    "bacterial_leaf_blight": 0,
+    "brown_spot": 0,
+    "hispa": 0,
+    "downy_mildew": 0,
+    "blast": 0,
+    "normal": 0,
+    "bacterial_leaf_streak": 0,
+    "tungro": 0
+  },
   "preprocessing_pipeline": [
     "resize",
-    "segmentation",
-    "contrast_enhancement",
-    "sharpen",
+    "denoise",
     "color_transformation",
     "normalize"
   ],
   "pipeline_description": [
     "Resize images to consistent dimensions",
-    "Remove background to isolate plant tissue",
-    "Enhance contrast to highlight disease features",
-    "Apply sharpening to enhance disease boundaries",
+    "Apply denoising to reduce image noise",
     "Transform to disease-relevant color spaces (HSV, LAB)",
     "Normalize pixel values for model training"
   ],
   "total_images": {
-    "original": 0,
+    "original": 10407,
     "preprocessed": 0
   },
   "config": {
-    "dataset_path": "dataset",
+    "dataset_path": "dataset/train_images",
     "output_dir": "output",
     "target_size": [
       224,

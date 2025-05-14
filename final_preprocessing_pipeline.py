@@ -849,13 +849,13 @@ class PreprocessingPipeline:
         """Execute the preprocessing pipeline"""
         logger.info("Starting preprocessing pipeline...")
 
-        # Step 1: Analyze dataset
-        logger.info("Step 1/4: Analyzing dataset...")
-        self._analyze_dataset()
-
-        # Step 2: Detect and remove duplicates
-        logger.info("Step 2/4: Detecting and removing duplicates...")
+        # Step 1: Detect and remove duplicates
+        logger.info("Step 1/4: Detecting and removing duplicates...")
         self._remove_duplicates()
+
+        # Step 2: Analyze dataset
+        logger.info("Step 2/4: Analyzing dataset...")
+        self._analyze_dataset()
 
         # Step 3: Determine preprocessing pipeline
         logger.info("Step 3/4: Determining optimal preprocessing pipeline...")

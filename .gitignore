@@ -27,5 +27,14 @@ env/
 *.pt
 *.onnx
 *.joblib
-datasets/
-outputs/
+dataset/train_images/hispa/
+dataset/train_images/normal/
+dataset/train_images/tungro/
+dataset/train_images/dead_heart/
+dataset/train_images/blast/
+dataset/train_images/brown_spot/
+dataset/train_images/bacterial_leaf_blight/
+dataset/train_images/bacterial_leaf_streak/
+dataset/train_images/downy_mildew/
+dataset/train_images/bacterial_panicle_blight/
+output/
