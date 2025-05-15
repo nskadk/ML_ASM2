@@ -287,15 +287,28 @@
       preview.style.display = 'block';
       uploadText.style.display = 'none';
       
-      // Update most likely badges
-      bestCondition.textContent = `${data.condition_preds[0][0]} (${(data.condition_preds[0][1] * 100).toFixed(1)}%)`;
-      bestVariety.textContent = `${data.variety_preds[0][0]} (${(data.variety_preds[0][1] * 100).toFixed(1)}%)`;
-      bestAge.textContent = `${data.age[0][0]} days (${(data.age[0][1] * 100).toFixed(1)}%)`;
+      // // Update most likely badges
+      // bestCondition.textContent = `${data.condition_preds[0][0]} (${(data.condition_preds[0][1] * 100).toFixed(1)}%)`;
+      // bestVariety.textContent = `${data.variety_preds[0][0]} (${(data.variety_preds[0][1] * 100).toFixed(1)}%)`;
+      // bestAge.textContent = `${data.age[0][0]} days (${(data.age[0][1] * 100).toFixed(1)}%)`;
 
-      // Update detailed predictions
-      updatePredictions('condition', data.condition_preds);
-      updatePredictions('variety', data.variety_preds);
-      updatePredictions('age', data.age);
+      // // Update detailed predictions
+      // updatePredictions('condition', data.condition_preds);
+      // updatePredictions('variety', data.variety_preds);
+      // updatePredictions('age', data.age);
+
+      // Disease (condition)
+      bestCondition.textContent = `${data.disease.prediction} (${data.disease.top3[0].probability.toFixed(1)}%)`;
+      updatePredictions('condition', data.disease.top3);
+
+      // Variety
+      bestVariety.textContent = `${data.variety.prediction} (${data.variety.top3[0].probability.toFixed(1)}%)`;
+      updatePredictions('variety', data.variety.top3);
+
+      // Age
+      bestAge.textContent = `${data.age.prediction} days (${data.age.top3[0].probability.toFixed(1)}%)`;
+      updatePredictions('age', data.age.top3);
+
 
       resultBox.style.display = 'block';
 
@@ -312,8 +325,31 @@
     else if (type === 'age') title = 'Top 3 Age Predictions';
     container.innerHTML = `<h3>${title}</h3>`;
 
-    predictions.forEach(([label, confidence], index) => {
-      const percent = (confidence * 100).toFixed(1);
+    // predictions.forEach(([label, confidence], index) => {
+    //   const percent = (confidence * 100).toFixed(1);
+    //   const displayLabel = type === 'age' ? `${label} days` : label;
+    //   const predictionHTML = `
+    //     <div class="prediction-item">
+    //       <div class="prediction-header">
+    //         <span>${displayLabel}</span>
+    //         <div class="progress-bar">
+    //           <div class="progress-fill" style="width: ${percent}%"></div>
+    //         </div>
+    //       </div>
+    //       <div class="prediction-percentage">${percent}%</div>
+    //     </div>
+    //   `;
+    //   container.insertAdjacentHTML('beforeend', predictionHTML);
+    // });
+
+    predictions.forEach((pred, index) => {
+      let label, percent;
+      if (type === 'age') {
+        label = pred.value !== undefined ? pred.value : pred.class;
+      } else {
+        label = pred.class;
+      }
+      percent = pred.probability.toFixed(1);
       const displayLabel = type === 'age' ? `${label} days` : label;
       const predictionHTML = `
         <div class="prediction-item">

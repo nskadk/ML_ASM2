@@ -36,8 +36,11 @@
     "Normalize pixel values for model training"
   ],
   "total_images": {
-    "original": 10407,
+    "original": 10219,
     "preprocessed": 0
+  },
+  "duplicates": {
+    "total_found": 188
   },
   "config": {
     "dataset_path": "dataset/train_images",
@@ -46,8 +49,7 @@
       224,
       224
     ],
-    "num_workers": 1,
+    "num_workers": 16,
     "analysis_sample_size": 3000
-  },
-  "error": "No images were successfully processed"
+  }
 }
